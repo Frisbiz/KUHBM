@@ -2,7 +2,7 @@ flask
 flask-login
 flask-sqlalchemy
 flask-bcrypt
-anthropic
+openai
 gunicorn
 psycopg2-binary
 python-dotenv

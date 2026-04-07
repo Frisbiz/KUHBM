@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 from models import Room, Booking
 from config import Config
-import anthropic
+from openai import OpenAI
 
 chat_bp = Blueprint('chat', __name__, url_prefix='/chat')
 
@@ -16,7 +16,7 @@ def index():
 @chat_bp.route('/send', methods=['POST'])
 @login_required
 def send():
-    if not Config.ANTHROPIC_API_KEY:
+    if not Config.OPENAI_API_KEY:
         return jsonify({'response': 'AI assistant is not configured. Please add an API key.'})
 
     user_message = request.json.get('message', '')
@@ -40,15 +40,17 @@ Keep responses concise and helpful. If a guest wants to make a booking, direct t
 If they want to request a service, direct them to the Services page."""
 
     try:
-        client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
-        response = client.messages.create(
-            model='claude-haiku-4-5',
+        client = OpenAI(api_key=Config.OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model='gpt-4o-mini',
             max_tokens=512,
-            system=system_prompt,
-            messages=[{'role': 'user', 'content': user_message}]
+            messages=[
+                {'role': 'system', 'content': system_prompt},
+                {'role': 'user', 'content': user_message}
+            ]
         )
-        reply = response.content[0].text
+        reply = response.choices[0].message.content
     except Exception as e:
-        reply = f'Sorry, I encountered an error. Please try again later.'
+        reply = 'Sorry, I encountered an error. Please try again later.'
 
     return jsonify({'response': reply})
