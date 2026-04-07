@@ -1,0 +1,54 @@
+from flask import Blueprint, render_template, request, jsonify
+from flask_login import login_required, current_user
+from models import Room, Booking
+from config import Config
+import anthropic
+
+chat_bp = Blueprint('chat', __name__, url_prefix='/chat')
+
+
+@chat_bp.route('/')
+@login_required
+def index():
+    return render_template('guest/chat.html')
+
+
+@chat_bp.route('/send', methods=['POST'])
+@login_required
+def send():
+    if not Config.ANTHROPIC_API_KEY:
+        return jsonify({'response': 'AI assistant is not configured. Please add an API key.'})
+
+    user_message = request.json.get('message', '')
+    if not user_message.strip():
+        return jsonify({'response': 'Please enter a message.'})
+
+    # Build context about available rooms
+    available_rooms = Room.query.filter_by(status='available').all()
+    room_info = '\n'.join([
+        f"- Room {r.number} ({r.type}): ${r.base_price}/night. {r.description or ''}"
+        for r in available_rooms
+    ])
+
+    system_prompt = f"""You are a friendly hotel assistant for our Smart Hotel system.
+Help guests with room inquiries, booking information, service requests, and general hotel questions.
+
+Currently available rooms:
+{room_info if room_info else 'No rooms currently available.'}
+
+Keep responses concise and helpful. If a guest wants to make a booking, direct them to the Booking page.
+If they want to request a service, direct them to the Services page."""
+
+    try:
+        client = anthropic.Anthropic(api_key=Config.ANTHROPIC_API_KEY)
+        response = client.messages.create(
+            model='claude-haiku-4-5',
+            max_tokens=512,
+            system=system_prompt,
+            messages=[{'role': 'user', 'content': user_message}]
+        )
+        reply = response.content[0].text
+    except Exception as e:
+        reply = f'Sorry, I encountered an error. Please try again later.'
+
+    return jsonify({'response': reply})

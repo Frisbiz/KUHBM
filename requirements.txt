@@ -1,0 +1,8 @@
+flask
+flask-login
+flask-sqlalchemy
+flask-bcrypt
+anthropic
+gunicorn
+psycopg2-binary
+python-dotenv
