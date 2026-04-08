@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, session, abort
 from flask_login import login_required, current_user
 from models import Room, Booking
 from config import Config
@@ -10,12 +10,16 @@ chat_bp = Blueprint('chat', __name__, url_prefix='/chat')
 @chat_bp.route('/')
 @login_required
 def index():
+    if current_user.role != 'guest':
+        abort(403)
     return render_template('guest/chat.html')
 
 
 @chat_bp.route('/send', methods=['POST'])
 @login_required
 def send():
+    if current_user.role != 'guest':
+        abort(403)
     if not Config.OPENAI_API_KEY:
         return jsonify({'response': 'AI assistant is not configured. Please add an API key.'})
 
