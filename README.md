@@ -41,7 +41,7 @@ The AI assistant is the only exception. On each message, the `/chat/send` endpoi
 3. Builds a system prompt with that context and sends it to OpenAI's GPT-4o Mini
 4. Saves the updated history back to the session
 
-The AI can answer questions about the guest's stay, explain how to use the site, and discuss room availability — but it cannot take actions on the guest's behalf.
+The AI can answer questions about the guest's stay, explain how to use the site, and discuss room availability. It cannot take actions on the guest's behalf.
 
 ## Running locally
 
@@ -115,13 +115,13 @@ The app is deployed on Render's free tier with a PostgreSQL database. To deploy 
 2. Create a new Web Service on [render.com](https://render.com) pointing to your fork
 3. Add a PostgreSQL database in Render and link it (sets `DATABASE_URL` automatically)
 4. Add `SECRET_KEY` and `OPENAI_API_KEY` as environment variables
-5. Deploy — the app will seed itself on first boot
+5. Deploy. The app will seed itself on first boot
 
 One thing to know about the free tier: the service spins down after 15 minutes of inactivity. The first request after idle will be slow while it wakes up.
 
 ## Limitations
 
-- The AI assistant has no memory between sessions — history is cleared on logout
+- The AI assistant has no memory between sessions. History is cleared on logout
 - Dynamic pricing suggestions are rule-based, not a trained model
 - No email notifications when service request statuses change
 - No mobile-optimised layout
