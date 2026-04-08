@@ -33,6 +33,10 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        # Auto-seed if database is empty (e.g. fresh Render deployment)
+        if User.query.count() == 0:
+            from seed import seed_db
+            seed_db()
 
     return app
 

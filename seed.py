@@ -1,13 +1,7 @@
-from app import create_app
 from models import db, User, Room
 
-app = create_app()
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
-
-    # Users
+def seed_db():
     users = [
         User(name='Alice Guest', email='guest@hotel.com', role='guest'),
         User(name='Bob Reception', email='reception@hotel.com', role='reception'),
@@ -21,7 +15,6 @@ with app.app_context():
     for u in users:
         db.session.add(u)
 
-    # Rooms
     rooms = [
         Room(number='101', type='single', base_price=80, description='Cozy single room with city view'),
         Room(number='102', type='single', base_price=80, description='Cozy single room with garden view'),
@@ -35,4 +28,13 @@ with app.app_context():
 
     db.session.commit()
     print('Database seeded successfully!')
-    print('Accounts: guest@hotel.com/guest123, reception@hotel.com/staff123, staff@hotel.com/staff123, admin@hotel.com/admin123')
+
+
+# Allow running directly: python seed.py
+if __name__ == '__main__':
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+        seed_db()
