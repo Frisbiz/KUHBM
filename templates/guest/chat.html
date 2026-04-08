@@ -23,6 +23,23 @@
 {% endblock %}
 
 {% block scripts %}
+<style>
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 2px;
+    background: #adb5bd;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+}
+</style>
 <script>
 const messagesDiv = document.getElementById('chat-messages');
 const input = document.getElementById('chat-input');
@@ -43,13 +60,31 @@ function addMessage(text, isUser) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+function showTypingIndicator() {
+    const div = document.createElement('div');
+    div.className = 'd-flex mb-3';
+    div.id = 'typing-indicator';
+    div.innerHTML = `
+        <div class="bg-light border rounded p-3 typing-indicator">
+            <span></span><span></span><span></span>
+        </div>`;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+}
+
 async function sendMessage() {
     const message = input.value.trim();
     if (!message) return;
     input.value = '';
     addMessage(message, true);
     sendBtn.disabled = true;
-    sendBtn.textContent = '...';
+    sendBtn.textContent = 'Send';
+    showTypingIndicator();
 
     try {
         const res = await fetch('{{ url_for("chat.send") }}', {
@@ -58,12 +93,13 @@ async function sendMessage() {
             body: JSON.stringify({message})
         });
         const data = await res.json();
+        removeTypingIndicator();
         addMessage(data.response, false);
     } catch {
+        removeTypingIndicator();
         addMessage('Sorry, something went wrong.', false);
     }
     sendBtn.disabled = false;
-    sendBtn.textContent = 'Send';
     input.focus();
 }
 
