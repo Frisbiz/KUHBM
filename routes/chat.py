@@ -30,6 +30,8 @@ def send():
     if len(user_message) > 500:
         return jsonify({'response': 'Message too long. Please keep messages under 500 characters.'})
 
+    chat_history = session.get('chat_history', [])
+
     # Build context about available rooms
     available_rooms = Room.query.filter_by(status='available').all()
     room_info = '\n'.join([
@@ -81,10 +83,21 @@ You can answer questions about their existing bookings and requests using the in
             max_tokens=512,
             messages=[
                 {'role': 'system', 'content': system_prompt},
+                *chat_history,
                 {'role': 'user', 'content': user_message}
             ]
         )
         reply = response.choices[0].message.content
+        chat_history.append({'role': 'user', 'content': user_message})
+        chat_history.append({'role': 'assistant', 'content': reply})
+
+        # Cap to last 20 entries, always starting with a user turn
+        chat_history = chat_history[-20:]
+        if chat_history and chat_history[0]['role'] == 'assistant':
+            chat_history = chat_history[1:]
+
+        session['chat_history'] = chat_history
+        session.modified = True
     except Exception as e:
         reply = 'Sorry, I encountered an error. Please try again later.'
 
