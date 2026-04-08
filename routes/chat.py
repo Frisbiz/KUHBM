@@ -27,6 +27,9 @@ def send():
     if not user_message.strip():
         return jsonify({'response': 'Please enter a message.'})
 
+    if len(user_message) > 500:
+        return jsonify({'response': 'Message too long. Please keep messages under 500 characters.'})
+
     # Build context about available rooms
     available_rooms = Room.query.filter_by(status='available').all()
     room_info = '\n'.join([
