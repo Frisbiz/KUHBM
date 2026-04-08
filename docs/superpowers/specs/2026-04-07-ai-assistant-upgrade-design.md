@@ -1,6 +1,6 @@
 # AI Assistant Upgrade — Design Spec
 **Date:** 2026-04-07
-**Scope:** Improve the GuestFlow AI chat assistant with session memory and personal guest context
+**Scope:** Improve the KUHBM AI chat assistant with session memory and personal guest context
 
 ---
 

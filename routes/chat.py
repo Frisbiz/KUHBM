@@ -59,7 +59,7 @@ def send():
         for r in open_requests
     ]) or 'No open service requests.'
 
-    system_prompt = f"""You are a friendly and knowledgeable hotel assistant for GuestFlow, a smart hotel management system.
+    system_prompt = f"""You are a friendly and knowledgeable hotel assistant for KUHBM, a smart hotel management system.
 You are speaking with {current_user.name}. Address them by name occasionally to keep it personal.
 
 --- AVAILABLE ROOMS ---

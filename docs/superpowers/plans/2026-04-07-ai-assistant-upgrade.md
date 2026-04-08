@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add session-based conversation memory and personal guest context (bookings + service requests) to the GuestFlow AI chat assistant.
+**Goal:** Add session-based conversation memory and personal guest context (bookings + service requests) to the KUHBM AI chat assistant.
 
 **Architecture:** Flask's server-side session stores `chat_history` as a list of `{role, content}` dicts. On each `/chat/send` request, the full history plus live guest data is injected into the OpenAI call. History is capped at 20 entries and cleared on logout.
 
@@ -212,7 +212,7 @@ request_info = '\n'.join([
 
 Replace the existing `system_prompt` string with:
 ```python
-system_prompt = f"""You are a friendly hotel assistant for GuestFlow.
+system_prompt = f"""You are a friendly hotel assistant for KUHBM.
 You are speaking with {current_user.name}.
 Help them with room inquiries, booking information, service requests, and general hotel questions.
 

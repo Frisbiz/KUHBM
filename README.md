@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="static/img/logo.png" alt="GuestFlow" width="120" />
+  <img src="static/img/logo.png" alt="KUHBM" width="120" />
 
   <p>Hotel management system with room booking, service requests, and an AI guest assistant.</p>
 
-  <a href="https://guestflow.onrender.com"><strong>guestflow.onrender.com →</strong></a>
+  <a href="https://kuhbm.onrender.com"><strong>kuhbm.onrender.com →</strong></a>
 
   <br />
   <br />
@@ -16,7 +16,7 @@
 
 ---
 
-GuestFlow is a full-stack hotel management app built with Flask. Guests can book rooms, request services, and chat with an AI assistant that knows their actual booking data. Staff and admins get their own dashboards. Everything runs as a single Python app with no frontend build step.
+KUHBM is a full-stack hotel management app built with Flask. Guests can book rooms, request services, and chat with an AI assistant that knows their actual booking data. Staff and admins get their own dashboards. Everything runs as a single Python app with no frontend build step.
 
 No microservices. No separate frontend. No unnecessary complexity.
 
@@ -32,7 +32,7 @@ No microservices. No separate frontend. No unnecessary complexity.
 
 ## How it works
 
-GuestFlow uses a standard MVC layout inside Flask. Every request hits a route, queries the database via SQLAlchemy, and returns a rendered Jinja2 template. There is no API layer and no JavaScript framework.
+KUHBM uses a standard MVC layout inside Flask. Every request hits a route, queries the database via SQLAlchemy, and returns a rendered Jinja2 template. There is no API layer and no JavaScript framework.
 
 The AI assistant is the only exception. On each message, the `/chat/send` endpoint:
 
@@ -46,8 +46,8 @@ The AI can answer questions about the guest's stay, explain how to use the site,
 ## Running locally
 
 ```bash
-git clone https://github.com/Frisbiz/GuestFlow.git
-cd GuestFlow
+git clone https://github.com/Frisbiz/KUHBM.git
+cd KUHBM
 
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
