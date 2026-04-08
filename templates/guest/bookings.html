@@ -5,6 +5,7 @@
 
 {% if bookings %}
 <div class="card">
+<div class="table-responsive">
     <table class="table table-hover mb-0">
         <thead class="table-light">
             <tr>
@@ -36,6 +37,7 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 </div>
 {% else %}
 <div class="alert alert-info">No bookings yet. <a href="{{ url_for('guest.book') }}">Book a room</a></div>
