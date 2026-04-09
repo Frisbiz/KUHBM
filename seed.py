@@ -16,12 +16,12 @@ def seed_db():
         db.session.add(u)
 
     rooms = [
-        Room(number='101', type='single', base_price=80, description='Cozy single room with city view'),
-        Room(number='102', type='single', base_price=80, description='Cozy single room with garden view'),
-        Room(number='201', type='double', base_price=130, description='Spacious double room with balcony'),
-        Room(number='202', type='double', base_price=130, description='Double room with king bed'),
-        Room(number='301', type='suite', base_price=250, description='Luxury suite with living area and sea view'),
-        Room(number='302', type='suite', base_price=280, description='Presidential suite with private terrace'),
+        Room(number='101', type='single', base_price=370, description='Cozy single room with city view'),
+        Room(number='102', type='single', base_price=350, description='Cozy single room with garden view'),
+        Room(number='201', type='double', base_price=580, description='Spacious double room with balcony'),
+        Room(number='202', type='double', base_price=620, description='Double room with king bed'),
+        Room(number='301', type='suite', base_price=1350, description='Luxury suite with living area and sea view'),
+        Room(number='302', type='suite', base_price=1800, description='Presidential suite with private terrace'),
     ]
     for r in rooms:
         db.session.add(r)
