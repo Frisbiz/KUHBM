@@ -20,7 +20,7 @@
                 <td>{{ b.room.type.title() }}</td>
                 <td>{{ b.check_in }}</td>
                 <td>{{ b.check_out }}</td>
-                <td>${{ "%.2f"|format(b.total_price) }}</td>
+                <td>AED {{ "%.2f"|format(b.total_price) }}</td>
                 <td>
                     <span class="badge bg-{{ 'success' if b.status == 'checked_in' else 'primary' if b.status == 'confirmed' else 'secondary' if b.status in ['checked_out','cancelled'] else 'info' }}">
                         {{ b.status.replace('_',' ') }}

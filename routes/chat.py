@@ -35,7 +35,7 @@ def send():
     # Build context about available rooms
     available_rooms = Room.query.filter_by(status='available').all()
     room_info = '\n'.join([
-        f"- Room {r.number} ({r.type}): ${r.base_price}/night. {r.description or ''}"
+        f"- Room {r.number} ({r.type}): AED {r.base_price}/night. {r.description or ''}"
         for r in available_rooms
     ])
 
@@ -45,7 +45,7 @@ def send():
         Booking.status.in_(['confirmed', 'checked_in'])
     ).all()
     booking_info = '\n'.join([
-        f"- Room {b.room.number} ({b.room.type}): check-in {b.check_in}, check-out {b.check_out}, status: {b.status}, total: ${b.total_price}"
+        f"- Room {b.room.number} ({b.room.type}): check-in {b.check_in}, check-out {b.check_out}, status: {b.status}, total: AED {b.total_price}"
         for b in active_bookings
     ]) or 'No active bookings.'
 
@@ -101,7 +101,7 @@ Chat with AI Assistant:
 - Answer questions about available rooms, pricing, and hotel policies.
 - Help {current_user.name} understand how to use the website with step-by-step instructions when asked.
 - Answer questions about their existing bookings and service requests using the data above.
-- You CANNOT make bookings or submit service requests on their behalf — guide them to do it themselves.
+- You CANNOT make bookings or submit service requests on their behalf - guide them to do it themselves.
 - If you don't know something specific (e.g. exact cancellation policy), say so honestly and suggest they contact reception.
 - Keep responses concise, friendly, and helpful."""
 

@@ -21,7 +21,7 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Price per Night ($)</label>
+                    <label class="form-label">Price per Night (AED)</label>
                     <input type="number" name="price" class="form-control" step="0.01" min="1" required>
                 </div>
                 <div class="mb-3">
@@ -45,7 +45,7 @@
                 <tr>
                     <td><strong>{{ room.number }}</strong></td>
                     <td>{{ room.type.title() }}</td>
-                    <td>${{ room.base_price }}</td>
+                    <td>AED {{ room.base_price }}</td>
                     <td>
                         <span class="badge bg-{{ 'success' if room.status == 'available' else 'danger' if room.status == 'occupied' else 'warning text-dark' }}">
                             {{ room.status }}

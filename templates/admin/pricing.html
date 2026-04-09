@@ -4,7 +4,7 @@
 <h4 class="mb-4">Dynamic Pricing</h4>
 
 <div class="alert alert-info">
-    <strong>Current Occupancy: {{ occupancy_rate }}%</strong> —
+    <strong>Current Occupancy: {{ occupancy_rate }}%</strong>
     Prices are adjusted based on current demand.
     High occupancy (&gt;80%) raises prices by 30%, low occupancy (&lt;30%) reduces by 15%.
 </div>
@@ -20,15 +20,15 @@
         <tr>
             <td><strong>{{ p.room.number }}</strong></td>
             <td>{{ p.room.type.title() }}</td>
-            <td>${{ "%.2f"|format(p.room.base_price) }}</td>
-            <td><strong>${{ "%.2f"|format(p.suggested_price) }}</strong></td>
+            <td>AED {{ "%.2f"|format(p.room.base_price) }}</td>
+            <td><strong>AED {{ "%.2f"|format(p.suggested_price) }}</strong></td>
             <td>
                 {% if p.change > 0 %}
                     <span class="text-success">▲ {{ p.change }}%</span>
                 {% elif p.change < 0 %}
                     <span class="text-danger">▼ {{ p.change|abs }}%</span>
                 {% else %}
-                    <span class="text-muted">— 0%</span>
+                    <span class="text-muted">0%</span>
                 {% endif %}
             </td>
         </tr>

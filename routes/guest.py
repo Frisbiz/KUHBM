@@ -85,7 +85,7 @@ def confirm_booking(room_id):
                       check_in=ci, check_out=co, total_price=total)
     db.session.add(booking)
     db.session.commit()
-    flash(f'Booking confirmed! Room {room.number} for {nights} night(s). Total: ${total:.2f}', 'success')
+    flash(f'Booking confirmed! Room {room.number} for {nights} night(s). Total: AED {total:.2f}', 'success')
     return redirect(url_for('guest.bookings'))
 
 

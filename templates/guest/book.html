@@ -42,7 +42,7 @@
                         </div>
                         <p class="text-muted mb-1">{{ room.type.title() }}</p>
                         <p class="mb-1">{{ room.description or 'Comfortable room with all amenities.' }}</p>
-                        <h5 class="text-primary">${{ room.base_price }}/night</h5>
+                        <h5 class="text-primary">AED {{ room.base_price }}/night</h5>
                     </div>
                     <div class="card-footer bg-transparent">
                         <form method="POST" action="{{ url_for('guest.confirm_booking', room_id=room.id) }}">

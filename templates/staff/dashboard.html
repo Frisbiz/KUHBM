@@ -13,7 +13,7 @@
                     <div>
                         <strong>{{ r.type.replace('_',' ').title() }}</strong><br>
                         <small class="text-muted">{{ r.requester.name }}</small><br>
-                        <small>{{ r.description or '—' }}</small>
+                        <small>{{ r.description or '' }}</small>
                     </div>
                 </div>
                 <form method="POST" action="{{ url_for('staff.update_request', req_id=r.id) }}" class="mt-2">
@@ -34,7 +34,7 @@
             <div class="py-2 border-bottom">
                 <strong>{{ r.type.replace('_',' ').title() }}</strong><br>
                 <small class="text-muted">{{ r.requester.name }}</small><br>
-                <small>{{ r.description or '—' }}</small>
+                <small>{{ r.description or '' }}</small>
                 <form method="POST" action="{{ url_for('staff.update_request', req_id=r.id) }}" class="mt-2">
                     <input type="hidden" name="status" value="completed">
                     <button class="btn btn-sm btn-outline-success w-100">Complete ✓</button>

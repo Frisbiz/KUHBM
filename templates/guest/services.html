@@ -35,7 +35,7 @@
                     <div>
                         <strong>{{ r.type.replace('_',' ').title() }}</strong>
                         <span class="text-muted ms-2" style="font-size:0.8rem;">{{ r.created_at.strftime('%b %d, %H:%M') }}</span><br>
-                        <small class="text-muted">{{ r.description or '—' }}</small>
+                        <small class="text-muted">{{ r.description or '' }}</small>
                     </div>
                     <span class="badge ms-2 bg-{{ 'warning text-dark' if r.status == 'pending' else 'info text-dark' if r.status == 'in_progress' else 'success' }}">
                         {{ r.status.replace('_',' ') }}
