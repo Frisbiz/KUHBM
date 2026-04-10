@@ -71,7 +71,7 @@ You are speaking with {current_user.name}. Address them by name occasionally to 
 --- {current_user.name.upper()}'S OPEN SERVICE REQUESTS ---
 {request_info}
 
---- HOW TO USE GUESTFLOW ---
+--- HOW TO USE KUHBM ---
 Book a Room:
   1. Click "Book a Room" in the left sidebar.
   2. Select your check-in and check-out dates.
