@@ -101,6 +101,75 @@ def pricing():
                            occupancy_rate=round(occupancy_rate * 100, 1))
 
 
+@admin_bp.route('/users')
+@login_required
+@admin_required
+def users():
+    all_users = User.query.order_by(User.id).all()
+    return render_template('admin/users.html', users=all_users)
+
+
+@admin_bp.route('/users/<int:user_id>/edit', methods=['POST'])
+@login_required
+@admin_required
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.id == current_user.id:
+        flash('You cannot edit your own account from here.', 'warning')
+        return redirect(url_for('admin.users'))
+
+    new_email = request.form.get('email', '').strip()
+    new_role = request.form.get('role')
+    new_password = request.form.get('password', '').strip()
+
+    if new_email and new_email != user.email:
+        existing = User.query.filter_by(email=new_email).first()
+        if existing:
+            flash(f'Email {new_email} is already in use.', 'danger')
+            return redirect(url_for('admin.users'))
+        user.email = new_email
+
+    if new_role and new_role in ('guest', 'reception', 'service_staff', 'admin'):
+        user.role = new_role
+
+    if new_password:
+        user.set_password(new_password)
+
+    db.session.commit()
+    flash(f'User {user.name} updated.', 'success')
+    return redirect(url_for('admin.users'))
+
+
+@admin_bp.route('/users/<int:user_id>/block', methods=['POST'])
+@login_required
+@admin_required
+def block_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.id == current_user.id:
+        flash('You cannot block yourself.', 'warning')
+        return redirect(url_for('admin.users'))
+    user.is_blocked = not user.is_blocked
+    db.session.commit()
+    status = 'blocked' if user.is_blocked else 'unblocked'
+    flash(f'User {user.name} has been {status}.', 'success')
+    return redirect(url_for('admin.users'))
+
+
+@admin_bp.route('/users/<int:user_id>/delete', methods=['POST'])
+@login_required
+@admin_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.id == current_user.id:
+        flash('You cannot delete your own account.', 'warning')
+        return redirect(url_for('admin.users'))
+    name = user.name
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'User {name} has been deleted.', 'success')
+    return redirect(url_for('admin.users'))
+
+
 def calculate_suggested_price(base_price, occupancy_rate):
     multiplier = 1.0
     if occupancy_rate > 0.8:

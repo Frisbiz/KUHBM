@@ -21,6 +21,9 @@ def login():
         password = request.form.get('password')
         user = User.query.filter_by(email=email).first()
         if user and user.check_password(password):
+            if user.is_blocked:
+                flash('Your account has been blocked. Contact an administrator.', 'danger')
+                return render_template('auth/login.html')
             login_user(user)
             role_redirects = {
                 'guest': 'guest.dashboard',
